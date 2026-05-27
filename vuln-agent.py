@@ -23,7 +23,7 @@ llm = ChatOpenAI(
 system_prompt = (
     "You are an automated software engineering assistant.\n"
     "Your task is to fetch a code example from a provided URL, analyze it, "
-    "and write a clean, optimized version of that code to a local file,"
+    "and write a clean, optimized version of that code to a local file into the output/ directory,"
     "with the filename based on the URL.\n\n"
 #    "CRITICAL TOOL USAGE RULES:\n"
 #    "1. If the input is a web link or starts with 'http://' or 'https://', you MUST use the `fetch_web_page` tool.\n"
