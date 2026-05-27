@@ -2,10 +2,8 @@ import os
 from langchain.agents import create_agent
 from langchain_openai import ChatOpenAI
 from tools import tools
+from colors import tag, data, CYAN, GREEN, YELLOW, RED, BLUE, DIM, RESET
 
-# -------------------------------------------------------------------
-# 1. Tools (imported from tools.py)
-# -------------------------------------------------------------------
 
 # -------------------------------------------------------------------
 # 2. Agent Initialization
@@ -40,7 +38,7 @@ agent_executor = create_agent(llm, tools, system_prompt=system_prompt)
 # 3. Main Execution (Updated)
 # -------------------------------------------------------------------
 if __name__ == "__main__":
-    print("=== Vulnerable AI Agent Demo ===")
+    print(f"{DIM}=== Vulnerable AI Agent Demo ==={RESET}")
     print("This agent has access to these tools:")
     print("  - fetch_web_page")
     print("  - read_file")
@@ -48,14 +46,14 @@ if __name__ == "__main__":
     print("  - execute_command")
     
     #url_input = input("\nEnter a URL to process (or type 'exit'): ").strip()
-    url_input = "http://localhost:8000/demo.txt"
+    url_input = "http://localhost:8000/demo2.txt"
 
     if url_input.lower() == 'exit':
         print("Exiting demo.")
         exit(0)
         
     try:
-        print(f"[Agent] Starting task for URL: {url_input}")
+        print(f"{tag('Agent', CYAN)} Starting task for URL: {data(url_input)}")
         
         # Streaming the steps allows you to see the exact moment the injection takes over
         inputs = {"messages": [("human", f"Please read the example at this URL: {url_input}, and generate the local code file.")]}
@@ -65,19 +63,22 @@ if __name__ == "__main__":
                 if "messages" in chunk:
                     last_msg = chunk["messages"][-1]
                     
-                    # Print Assistant thoughts or Tool calls as they happen
+                    # Print Assistant thoughts or tool calls as they happen
                     if last_msg.type == "ai":
                         if last_msg.tool_calls:
                             for tc in last_msg.tool_calls:
-                                print(f"[AI Decision] Calling Tool: {tc['name']} with args: {tc['args']}")
+                                print(f"{tag('AI Decision', YELLOW)} Calling Tool: {data(tc['name'])} with args: {data(tc['args'])}")
                         elif last_msg.content:
-                            print(f"[AI Response]: {last_msg.content}")
+                            print(f"{tag('AI Response', GREEN)} {last_msg.content}")
                             
                     elif last_msg.type == "tool":
-                        print(f"[Tool Output]:\n-------------------------------\n{str(last_msg.content)}\n-------------------------------")
+                        print(f"{DIM}--------------------------------------------------------------{RESET}")
+                        print(f"{str(last_msg.content)}\n")
+                        print(f"{DIM}--------------------------------------------------------------{RESET}")
+
         except KeyboardInterrupt:
-            print("\n[Interrupted] Agent execution was cancelled by user.")
+            print(f"\n{tag('Interrupted', YELLOW)} Agent execution was cancelled by user.")
 
     except Exception as e:
-        print(f"\n[Error] Agent execution failed: {str(e)}")
+        print(f"\n{tag('Error', RED)} Agent execution failed: {data(str(e))}")
 
