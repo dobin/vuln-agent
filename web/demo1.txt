@@ -1,0 +1,7 @@
+Example code: 
+
+```
+void main(void) {
+    printf("Hello World\n");
+}
+```
