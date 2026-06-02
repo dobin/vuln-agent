@@ -45,8 +45,8 @@ if __name__ == "__main__":
     print("  - write_file")
     print("  - execute_command")
     
-    #url_input = input("\nEnter a URL to process (or type 'exit'): ").strip()
-    url_input = "http://localhost:8000/demo2.txt"
+    url_input = input("\nEnter a URL to process (or type 'exit'): ").strip()
+    #url_input = "http://localhost:8000/demo2.txt"
 
     if url_input.lower() == 'exit':
         print("Exiting demo.")
